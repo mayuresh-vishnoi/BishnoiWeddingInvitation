@@ -1,11 +1,10 @@
-# Build stage (optional, for multi-stage builds)
-FROM maven:3.9.6-eclipse-temurin-21 AS builder
-WORKDIR /build
-COPY . /build
+# Stage 1: Build the application
+FROM maven:3.8.5-openjdk-17 AS build
+COPY . .
 RUN mvn clean package -DskipTests
 
-# Package stage
-FROM eclipse-temurin:21-jdk-alpine
-WORKDIR /app
-COPY --from=builder /build/target/*.jar app.jar
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+# Stage 2: Run the application
+FROM eclipse-temurin:17-jdk-alpine
+COPY --from=build /target/*.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","/app.jar"]
