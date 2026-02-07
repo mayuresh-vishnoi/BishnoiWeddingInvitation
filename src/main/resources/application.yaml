@@ -3,13 +3,14 @@ server:
 
 spring:
   datasource:
-    username: root
-    password: india@123
-    url: jdbc:mysql://localhost:3306/BISHNOI_WEDDING
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: ${SPRING_DATASOURCE_URL}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
   mvc:
     view:
       prefix: /WEB-INF/jsp/
